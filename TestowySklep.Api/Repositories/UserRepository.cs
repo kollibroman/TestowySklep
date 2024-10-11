@@ -77,12 +77,22 @@ public class UserRepository : IUserRepository
            };
     }
 
-    public async Task<IResponseModel> UpdateUserAsync(int id, double score, CancellationToken ct)
+    public async Task<IResponseModel> UpdateUserAsync(int id, string email, int age, bool isMale, CancellationToken ct)
     {
         var updatedUser = await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == id, ct);
 
         if (updatedUser is not null)
         {
+            _dbContext.Users
+                .Where(u => u.Id == id)
+                .ExecuteUpdate(b =>
+                        b.SetProperty(u => u.Email, email)
+                        .SetProperty(u => u.Age, age)
+                        .SetProperty(u => u.IsMale, isMale)
+                );
+
+            _dbContext.Users.Update(updatedUser);
+            
             return new ResponseModel
             {
                 Success = true

@@ -2,6 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TestowySklep.Api.Extensions;
 using TestowySklep.Api.Persitence;
+using TestowySklep.Api.Repositories;
+using TestowySklep.Api.Repositories.Interfaces;
+using TestowySklep.Api.Services;
+using TestowySklep.Api.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<TestowyDbContext>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", policyBuilder =>
 {

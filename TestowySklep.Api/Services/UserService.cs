@@ -20,28 +20,35 @@ public class UserService : IUserService
         _logger = logger;
     }
 
-    public Task<IResponseDataModel<IAsyncEnumerable<User>>> GetUsersAsync(CancellationToken ct)
+    public async Task<IResponseDataModel<IAsyncEnumerable<User>>> GetUsersAsync(CancellationToken ct)
     {
-        throw new NotImplementedException();
+        return await _repository.GetUsersAsync(ct);
     }
 
-    public Task<IResponseDataModel<User>> GetUserByIdAsync(int id, CancellationToken ct)
+    public async Task<IResponseDataModel<User>> GetUserByIdAsync(int id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        return await _repository.GetUserByIdAsync(id, ct);
     }
 
     public Task<IResponseModel> CreateUserAsync(AddUserDto dto, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var user = new User{
+            Name = dto.Name,
+            Email = dto.Email,
+            Age = dto.Age,
+            IsMale = dto.IsMale
+            };
+        
+        return _repository.CreateUserAsync(user, ct);
     }
 
     public Task<IResponseModel> UpdateUserAsync(int id, UpdateUserDto dto, CancellationToken ct)
     {
-        throw new NotImplementedException();
+         return _repository.UpdateUserAsync(id, dto.Email, dto.age, dto.IsMale, ct);
     }
 
     public Task<IResponseModel> DeleteUserAsync(int id, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        return _repository.DeleteUserAsync(id, ct);
     }
 }

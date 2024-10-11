@@ -18,7 +18,9 @@ public static class UserApi
 
         group.MapGet("/", GetUsersAsync);
         group.MapGet("/{id}", GetUserByIdAsync);
-        group.MapGet("/", CreateUserAsync).DisableAntiforgery();
+        group.MapPost("/", CreateUserAsync).DisableAntiforgery();
+        group.MapPatch("/{id}", UpdateUserAsync);
+        group.MapDelete("/{id}", DeleteUserAsync);
         
         return routes;
     }
@@ -39,6 +41,20 @@ public static class UserApi
         [FromServices] IUserService service, CancellationToken ct)
     {
         var result = await service.CreateUserAsync(dto, ct);
+        return result.Success ? TypedResults.Ok(result) : TypedResults.BadRequest();
+    }
+
+    private static async Task<Results<Ok<IResponseModel>, BadRequest>> UpdateUserAsync([FromRoute] int id,
+        [FromBody] UpdateUserDto dto,
+        [FromServices] IUserService service, CancellationToken ct)
+    {
+        var result = await service.UpdateUserAsync(id, dto, ct);
+        return result.Success ? TypedResults.Ok(result) : TypedResults.BadRequest();
+    }
+    
+    private static async Task<Results<Ok<IResponseModel>, BadRequest>> DeleteUserAsync([FromRoute] int id, [FromServices] IUserService service, CancellationToken ct)
+    {
+        var result = await service.DeleteUserAsync(id, ct);
         return result.Success ? TypedResults.Ok(result) : TypedResults.BadRequest();
     }
 }
