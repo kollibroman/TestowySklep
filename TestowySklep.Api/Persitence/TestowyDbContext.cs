@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TestowySklep.Api.Persitence.Models;
 
 namespace TestowySklep.Api.Persitence;
 
@@ -14,8 +15,10 @@ public class TestowyDbContext : DbContext
         
     }
 
+    public virtual DbSet<User> Users => Set<User>();
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=Kalkulator.db");
+        optionsBuilder.UseSqlite("Data Source=TestowySklep.db");
     }
 }

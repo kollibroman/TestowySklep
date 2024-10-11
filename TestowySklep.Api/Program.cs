@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<TestowyDbContext>();
+
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", policyBuilder =>
 {
     policyBuilder.AllowAnyOrigin()
@@ -23,7 +25,7 @@ builder.Services.AddAntiforgery();
 
 var app = builder.Build();
 
-app.UseSerilogRequestLogging();
+//app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

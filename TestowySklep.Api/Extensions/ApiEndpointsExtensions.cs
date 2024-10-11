@@ -7,5 +7,6 @@ public static class ApiEndpointsExtensions
     public static void RegisterApiEndpoints(this IEndpointRouteBuilder builder)
     {
         builder.AddInfrastructure();
+        builder.MapUser();
     }
 }
